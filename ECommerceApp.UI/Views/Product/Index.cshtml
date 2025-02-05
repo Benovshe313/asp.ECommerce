@@ -1,0 +1,77 @@
+﻿<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Product Name
+                <a class="btn btn-primary"
+                   asp-action="Index"
+                   asp-route-page="@Model.CurrentPage"
+                   asp-route-category="@Model.CurrentCategory"
+                   asp-route-sortProducts="@(Model.CurrentProducts == "asc" ? "desc" : "asc")"
+                   asp-route-sortPrice="@Model.CurrentPrice">
+                    @(Model.CurrentProducts == "asc" ? "A to Z" : "Z to A")
+                </a>
+            </th>
+            <th>
+                Unit Price
+                <a class="btn btn-primary"
+                   asp-action="Index"
+                   asp-route-page="@Model.CurrentPage"
+                   asp-route-category="@Model.CurrentCategory"
+                   asp-route-sortProducts="@Model.CurrentProducts"
+                   asp-route-sortPrice="@(Model.CurrentPrice == "asc" ? "desc" : "asc")">
+                    @(Model.CurrentPrice == "asc" ? "Lower to Higher" : "Higher to Lower")
+                </a>
+            </th>
+            <th>Unit In Stock</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Products)
+        {
+            <tr>
+                <td>@item.ProductName</td>
+                <td>$@item.UnitPrice</td>
+                <td>@item.UnitsInStock</td>
+                <td>
+                    <a class="btn btn-xs btn-success">
+                        Add To Cart
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<div>
+    @if (Model.CurrentPage > 1)
+    {
+        <a class="btn btn-primary" 
+           asp-action="Index"
+           asp-route-page="@(Model.CurrentPage - 1)"
+           asp-route-category="@Model.CurrentCategory"
+           asp-route-sortProducts="@Model.CurrentProducts"
+           asp-route-sortPrice="@Model.CurrentPrice">Prev</a>
+    }
+
+    @for (int i = 1; i <= Model.PageCount; i++)
+    {
+        <a class="btn btn-success @(i == Model.CurrentPage ? "active" : "")"
+           asp-action="Index"
+           asp-route-page="@i"
+           asp-route-category="@Model.CurrentCategory"
+           asp-route-sortProducts="@Model.CurrentProducts"
+           asp-route-sortPrice="@Model.CurrentPrice">@i</a>
+    }
+
+    @if (Model.CurrentPage < Model.PageCount)
+    {
+        <a class="btn btn-primary" asp-action="Index"
+           asp-route-page="@(Model.CurrentPage + 1)"
+           asp-route-category="@Model.CurrentCategory"
+           asp-route-sortProducts="@Model.CurrentProducts"
+           asp-route-sortPrice="@Model.CurrentPrice">Next</a>
+    }
+</div>
